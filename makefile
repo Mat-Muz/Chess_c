@@ -5,7 +5,7 @@ TARGET = chess
 SRC_DIR = src
 INC_DIR = include
 BUILD_DIR = build
-
+Autosave_Dir= Save/AutoSave
 
 # Extensions
 SRC_EXT = c
@@ -20,7 +20,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.$(SRC_EXT))
 OBJS = $(patsubst $(SRC_DIR)/%.$(SRC_EXT), $(BUILD_DIR)/%.$(OBJ_EXT), $(SRCS))
 
 # Règle par défaut
-all: $(TARGET)
+all: $(TARGET) $(Autosave_Dir)
 
 # Compilation de l'exécutable final
 $(TARGET): $(OBJS)
@@ -36,8 +36,8 @@ $(BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.$(SRC_EXT) | $(BUILD_DIR)
 $(BUILD_DIR):
 	@mkdir -p $(BUILD_DIR)
 #creation de Autosave si il n'existe pas
-Autosave:
-	@mkdir -p ./Save/AutoSave
+$(Autosave_Dir):
+	@mkdir -p $(Autosave_Dir)
 
 # Nettoyage
 clean:
