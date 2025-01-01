@@ -1,0 +1,8 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "*.c": "c",
+        "commandes.C": "cpp",
+        "game_logic.h": "c"
+    }
+}
