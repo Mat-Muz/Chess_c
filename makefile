@@ -42,7 +42,7 @@ $(Autosave_Dir):
 # Nettoyage
 clean:
 	@echo "[CLEAN] Suppression des fichiers compilés"
-	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -rf $(BUILD_DIR) $(TARGET) $(Autosave_Dir)
 
 # Phonies
 .PHONY: all clean
