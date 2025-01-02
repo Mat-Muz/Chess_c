@@ -14,6 +14,7 @@
 
 typedef struct piece piece;
 typedef struct Game Game;
+typedef struct Menu Menu;
 typedef struct p_liste p_liste;
 typedef int bool;
 
@@ -49,7 +50,15 @@ struct Game{
     int co[2]; //[chiffre][lettre]
     int commande;
 
+
 };
+
+struct Menu{
+    Game * Jeu;
+    int couleur;
+    int options;
+    int page;
+}
 
 struct p_liste{
     

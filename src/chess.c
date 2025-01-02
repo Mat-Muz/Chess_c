@@ -5,6 +5,7 @@
 #include "Validation_coups.h"
 #include "Game_logic.h"
 #include "commandes.h"
+#include "Menu.h"
 
 void tour2jeu(Game * );
 
@@ -12,10 +13,11 @@ void tour2jeu(Game * );
 
 int main(void){
     Game * Jeu = (Game *) malloc(sizeof(Game));
+    affichageMenu();
     start:
     if(Jeu->commande != 5){
     clean_Game(Jeu);
-    clearscr();
+    //clearscr();
     while(SelectSave(Jeu) != 1){}}
     else exec_commande(Jeu);
     /*
