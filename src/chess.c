@@ -13,6 +13,7 @@ void tour2jeu(Game * );
 
 int main(void){
     Game * Jeu = (Game *) malloc(sizeof(Game));
+    Menu * menu = (Menu *) malloc(sizeof(Menu));
     affichageMenu();
     start:
     if(Jeu->commande != 5){
