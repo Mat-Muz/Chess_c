@@ -11,7 +11,7 @@ void clean_board(Game *);
 void * creerplt_vld(Game * );
 void initplt_vld(Game *);
 void clean_plt_vld(Game *);
-
+void clean_Menu(Menu *);
 
 
 

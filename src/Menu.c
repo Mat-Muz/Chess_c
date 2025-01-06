@@ -18,8 +18,9 @@ void afficheimage(char filename[]){
       return;
 }
 
-void affichageMenu(){
+void affichageMenu(Menu * Menu){
       clearscr();
+      int page = Menu->page;
       afficheimage("./Graphismes/Logo");
 
 }

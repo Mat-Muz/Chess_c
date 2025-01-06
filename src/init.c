@@ -121,7 +121,12 @@ void clean_Game(Game * Jeu){
 
 }
 
-
+void clean_Menu(Menu * menu){
+    menu->page = 0;
+    menu->options =0;
+    menu->couleur = 0;
+    
+}
 
 void clean_board(Game * Jeu){
     //netoie le plateua de jeu

@@ -36,6 +36,7 @@ struct piece{
 
 
 struct Game{
+    Menu * menu;
     //cst
     chessboard * plateau;
     int hauteur;
