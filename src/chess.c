@@ -35,7 +35,7 @@ int main(void){
 
     //CreateSave(Jeu);*/
     
-    
+    Jeu->round = 1;
     while(Jeu->winner == 0){
     
     tour2jeu(Jeu); 
@@ -55,6 +55,7 @@ int main(void){
 
 
 void tour2jeu(Game * Jeu ){
+
     
     Jeu->co[0] = -1;
     Jeu->co[1] = -1;
@@ -98,8 +99,8 @@ void tour2jeu(Game * Jeu ){
         //suite 
         Jeu->player = 0;
     }
-
     Jeu->round++;
+    
 }
 
 

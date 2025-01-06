@@ -58,7 +58,7 @@ struct Menu{
     int couleur;
     int options;
     int page;
-}
+};
 
 struct p_liste{
     

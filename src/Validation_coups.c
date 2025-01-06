@@ -49,11 +49,11 @@ void coup_valide_piece(int i, int j, Game *Jeu){
             }
             }
             //cas en passant 
-            if((j+1)<longeur && plateau[i][j+1] !=NULL && plateau[i][j+1]->couleur != current_piece->couleur && plateau[i][j+1]->type == pion && (plateau[i][j+1]->mvd == Jeu->round || plateau[i][j+1]->mvd == Jeu->round-1)){
-                plt_vld[i+1][j+1] = add_p_liste(plt_vld[i+1][j+1],current_piece);
+            if((j+1)<longeur && plateau[i][j+1] !=NULL && plateau[i][j+1]->couleur != current_piece->couleur && plateau[i][j+1]->type == pion && ((plateau[i][j+1]->mvd == Jeu->round && plateau[i][j+1]->couleur == blanc ) || (plateau[i][j+1]->mvd == Jeu->round-1 && plateau[i][j+1]->couleur == noir ))){
+                plt_vld[i+current_piece->couleur][j+1] = add_p_liste(plt_vld[i+current_piece->couleur][j+1],current_piece);
             }
-            if((j-1)>=0 && plateau[i][j-1] !=NULL && plateau[i][j-1]->couleur != current_piece->couleur && plateau[i][j-1]->type == pion && (plateau[i][j-1]->mvd == Jeu->round || plateau[i][j-1]->mvd == Jeu->round-1)){
-                plt_vld[i+1][j-1] = add_p_liste(plt_vld[i+1][j-1],current_piece);
+            if((j-1)>=0 && plateau[i][j-1] !=NULL && plateau[i][j-1]->couleur != current_piece->couleur && plateau[i][j-1]->type == pion && ((plateau[i][j-1]->mvd == Jeu->round && plateau[i][j-1]->couleur == blanc ) || (plateau[i][j-1]->mvd == Jeu->round-1 && plateau[i][j-1]->couleur == noir ))){
+                plt_vld[i+current_piece->couleur][j-1] = add_p_liste(plt_vld[i+current_piece->couleur][j-1],current_piece);
             }
 
 
