@@ -6,6 +6,8 @@
 #include <string.h> 
 
 
+
+
 #define noir -1
 #define blanc 1
 #define true 1
@@ -57,7 +59,7 @@ struct Game{
 struct Menu{
     Game * Jeu;
     int couleur;
-    int options;
+    int savemode;
     int page;
 };
 

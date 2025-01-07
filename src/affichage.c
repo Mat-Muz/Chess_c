@@ -1,5 +1,4 @@
-#define MARGE_GAUCHE "25"
-#define MARGE_HAUTE "4"
+
 #include "affichage.h"
 #include "Validation_coups.h"
 

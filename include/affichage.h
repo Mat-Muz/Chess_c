@@ -1,5 +1,7 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
+#define MARGE_GAUCHE "25"
+#define MARGE_HAUTE "4"
 
 #include "chess.h"
 

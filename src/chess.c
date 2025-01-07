@@ -25,7 +25,7 @@ int main(){
     main_menu(menu);
     clean_Game(Jeu);
     
-    switch(menu->options){
+    switch(menu->savemode){
 
         case 1:
         Jeu->hauteur = 8;

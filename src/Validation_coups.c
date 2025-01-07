@@ -31,7 +31,7 @@ void coup_valide_piece(int i, int j, Game *Jeu){
                     // printf("pion , %d %d peut aller en %d %d \n", i,j, i+current_piece->couleur, j);
             }
             x++;
-            if (plateau[y][x] != 0x0 && plateau[y][x]->couleur != current_piece->couleur){
+            if (x<longeur && plateau[y][x] != 0x0 && plateau[y][x]->couleur != current_piece->couleur){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
                 // printf("pion , %d %d peut aller en %d %d \n", i,j, i+current_piece->couleur, j+1);
             }
