@@ -1,3 +1,4 @@
+#include "chess.h"
 #include "affichage.h"
 #include "Saves.h"
 #include "input.h"
@@ -11,35 +12,49 @@ void tour2jeu(Game * );
 
 
 
-int main(void){
+int main(){
     Game * Jeu = (Game *) malloc(sizeof(Game));
     Menu * menu = (Menu *) malloc(sizeof(Menu));
-    clean_Game;
-    clean_Menu;
     menu->Jeu = Jeu;
     Jeu->menu = menu;
-    affichageMenu();
-    start:
-    if(Jeu->commande != 5){
     clean_Game(Jeu);
-    //clearscr();
-    while(SelectSave(Jeu) != 1){}}
-    else exec_commande(Jeu);
+    start:
+    if(Jeu->commande == 5){
+    exec_commande(Jeu);}
+    else{
+    main_menu(menu);
+    clean_Game(Jeu);
+    
+    switch(menu->options){
+
+        case 1:
+        Jeu->hauteur = 8;
+        Jeu->longeur = 8;
+        Jeu->player = blanc;
+        Jeu->winner = 0;
+        Jeu->co[0] = -1;
+        Jeu->co[1] = -1;
+        Jeu->plateau = creerplateau(8,8);
+        initplateau(Jeu, 1);
+        Jeu->plt_vld = (plateauvalide *) creerplt_vld(Jeu);
+        initplt_vld(Jeu); //cree le plateau des coup valide a vide
+        break;
+        case 2:
+            while(SelectSave(Jeu) != 1){}
+            break;
+    }
+    }
+ 
+
     /*
-    Jeu->hauteur = 8;
-    Jeu->longeur = 8;
-    Jeu->player = blanc;
-    Jeu->winner = 0;
-    Jeu->co[0] = -1;
-    Jeu->co[1] = -1;
-    Jeu->plateau = creerplateau(8,8);
+ 
     
     initplateau(Jeu);
     
 
     //CreateSave(Jeu);*/
     
-    Jeu->round = 1;
+    if(Jeu->round == 0){Jeu->round = 1;}
     while(Jeu->winner == 0){
     
     tour2jeu(Jeu); 

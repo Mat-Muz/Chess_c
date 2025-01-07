@@ -8,6 +8,7 @@ void selectcoord(Game* Jeu, int cas){
     bool coupvalide = false;
     int lettre = 0;
     int chiffre = 0;
+    int coarrive[2];
     
     while(!coupvalide){
     lettre = 0 ;
@@ -37,7 +38,9 @@ void selectcoord(Game* Jeu, int cas){
             else coupvalide=true;
             break;
         case 1: //case d'arrivée
-            int coarrive[2] = {chiffre,lettre};
+            
+            coarrive[0] = chiffre;
+            coarrive[1] = lettre;
             if (chiffre == -1 || lettre == -1 || chiffre>=Jeu->hauteur || lettre>=Jeu->longeur){
                 printf("essaie une case qui existe \n");
                 coupvalide = false;}

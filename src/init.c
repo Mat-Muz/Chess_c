@@ -1,6 +1,7 @@
 #include "init.h"
 #include "Validation_coups.h"
 
+
 void * creerplateau(int hauteur, int longeur){
     chessboard * plateau;
     plateau  = (chessboard * )malloc(hauteur*sizeof(piece **));
@@ -121,12 +122,7 @@ void clean_Game(Game * Jeu){
 
 }
 
-void clean_Menu(Menu * menu){
-    menu->page = 0;
-    menu->options =0;
-    menu->couleur = 0;
-    
-}
+
 
 void clean_board(Game * Jeu){
     //netoie le plateua de jeu

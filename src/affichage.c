@@ -30,111 +30,61 @@ void coin(){
 }
 
 void afficheplateau( Game * Jeu ){
-    clearscr();
-    coin();
-    chessboard * plateau = Jeu->plateau;
-    int hauteur = Jeu->hauteur;
-    int longeur = Jeu->longeur;
-    int player = Jeu->player;
-    int coordonee[2] = {Jeu->co[0],Jeu->co[1]};
-
-    //Symétrie obligatoire de part le tableau
-    printf("\033[0m");
-    if(player == noir){
-        for(int i =0; i<hauteur;i++){
-            seppaligne(longeur);
-            retchr();
-            for(int j = longeur-1; j >-1; j--){
-                printf("\033[0m");
-                 printf("│");
-                 if (plateau[i][j] == 0x0){ printf("   ");}
-                 else {
-                    if (plateau[i][j]->couleur == blanc){
-                        printf("\033[0;97m"); // Piece claire
-                    } else {printf("\033[0;90m");} // Piece sombre 
-                    if (i == coordonee[0] && j == coordonee[1]){ printf("\033[0;32m");} // Vert pour les pieces selectionées
-                    switch (plateau[i][j]->type){
-                     case 1:
-                        printf(" ♟ ");
-                        break;
-                     case 2:
-                        printf(" ♜ ");
-                        break;
-                     case 3:
-                        printf(" ♞ ");
-                        break;
-                     case 4:
-                        printf(" ♝ ");
-                        break;
-                    case 5:
-                        printf(" ♛ ");
-                        break;
-                     case 6:
-                        printf(" ♚ ");
-                        break;
-
-                    }
-                    
-                 }
-                }
+        chessboard * plateau = Jeu->plateau;
+    char * pieces[6] ={"♟","♜","♞","♝","♛","♚"};
+ clearscr();
+ bordereau();
+ coin();
+ printf("\033[0m");
+ if(Jeu->player == blanc ){ //symétrie due au tableau 
+    for(int i = Jeu->hauteur -1;i>=0;i--){
+        seppaligne(Jeu->longeur);
+        retchr();
+        for(int j = 0 ; j<Jeu->longeur; j++){
             printf("\033[0m");
-            printf("│  %d",i+1);
+            printf("│");
+                if(plateau[i][j]==0x0){printf("   ");}
+                else{
+                plateau[i][j]->couleur == blanc ?  printf("\033[0;97m"):printf("\033[90m"); //Couleur pour les autres pieces
+                printf(" %s ",pieces[plateau[i][j]->type -1]);
+                }
         }
+        printf("\033[0m");
+        printf("│  %d",i+1);
     }
-    else {
-        for(int i =hauteur-1; i>=0;i--){
-            seppaligne(longeur);
-            retchr();
-            for(int j = 0; j <longeur ; j++){
-                printf("\033[0m");
-                 printf("│");
-                 if (plateau[i][j] == 0x0){ printf("   ");}
-                 else {
-                    if (plateau[i][j]->couleur == blanc){
-                        printf("\033[0;97m");
-                    } else {printf("\033[0;90m");}
-                    if (i == coordonee[0] && j == coordonee[1]){ printf("\033[0;32m");}
-                    switch (plateau[i][j]->type){
-                     case 1:
-                        printf(" ♟ ");
-                        break;
-                     case 2:
-                        printf(" ♜ ");
-                        break;
-                     case 3:
-                        printf(" ♞ ");
-                        break;
-                     case 4:
-                        printf(" ♝ ");
-                        break;
-                     case 5:
-                        printf(" ♛ ");
-                        break;
-                     case 6:
-                        printf(" ♚ ");
-                        break;
-
-                    }
-                    
-                 }
-                }
+ }
+ else {
+    for(int i =0; i<Jeu->hauteur;i++){
+        seppaligne(Jeu->longeur);
+        retchr();
+        for(int j = Jeu->longeur -1 ; j>=0; j--){
             printf("\033[0m");
-            printf("│  %d",i+1);
-        } 
+            printf("│");
+                if(plateau[i][j]==0x0){printf("   ");}
+                else{
+                plateau[i][j]->couleur == blanc ?  printf("\033[0;97m"):printf("\033[90m"); //Couleur pour les autres pieces
+                printf(" %s ",pieces[plateau[i][j]->type -1]);
+                }
+        }
+        printf("\033[0m");
+        printf("│  %d",i+1);
     }
-         seppaligne(longeur);
-         retchr();
-         lettres(Jeu);
+ }
+    seppaligne(Jeu->longeur);
+    retchr();
+    lettres(Jeu);
     printf("\033[0m");
     printf("\n");
     afficheJoueur(Jeu);
 }
+
 
 void affichecoupvalide(Game * Jeu){
     // Jeu->co doit etre dans les bornes du tableau !!!
     chessboard * plateau = Jeu->plateau;
     char * pieces[6] ={"♟","♜","♞","♝","♛","♚"};
  clearscr();
+ bordereau();
  coin();
  printf("\033[0m");
  if(Jeu->player == blanc ){
@@ -145,7 +95,7 @@ void affichecoupvalide(Game * Jeu){
             printf("\033[0m");
             printf("│");
             int co_case[] = {i,j};
-            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ⋅ "):printf("   ");}
+            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ⏺ "):printf("   ");}
             else {
                 if(i == Jeu->co[0] && j == Jeu->co[1]){printf("\033[0;32m");} // couleur verte si case selectionne == piece joue
                 else if(estvalide(Jeu,co_case)){ //verif si piece ateignable par la select
@@ -168,7 +118,7 @@ void affichecoupvalide(Game * Jeu){
             printf("\033[0m");
             printf("│");
             int co_case[] = {i,j};
-            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ⋅ "):printf("   ");}
+            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ⏺ "):printf("   ");}
             else {
                 if(i == Jeu->co[0] && j == Jeu->co[1]){printf("\033[0;32m");} // couleur verte si case selectionne == piece joue
                 else if(estvalide(Jeu,co_case)){ //verif si piece ateignable par la select
@@ -200,6 +150,11 @@ void seppaligne(int longeur){
     printf("┼");
 }
 
+void bordereau(){
+    printf("\033[s");
+    printf("\033[H\033[107m\033[30m Now playing < chess.c > │ Version by Mattéo & Stanislas \n");
+    printf("\033[u");
+}
 
 void lettres(Game * Jeu){
     // affiches les lettres en dessous du plateau

@@ -1,5 +1,6 @@
 #include "Menu.h"
 
+
 void afficheimage(char filename[]){
       FILE * Image;
       Image = fopen(filename,"r");
@@ -18,13 +19,47 @@ void afficheimage(char filename[]){
       return;
 }
 
-void affichageMenu(Menu * Menu){
+void affichageMenu(Menu * menu){
+int page = menu->page; 
+switch(page){
+      case 0:
       clearscr();
-      int page = Menu->page;
       afficheimage("./Graphismes/Logo");
+      printf("\n              1. New-game      2.         3.       \n");
+      changepage(menu);
 
+      break;
+      
+      
+      case 1:
+      clearscr();
+      coin();
+      printf("0.Main menu 1. Classic_chess      2.Custom\n");
+      char buffer[8];
+      fgets(buffer,sizeof(buffer),stdin);
+      int option=atoi(buffer);
+      if(option == 0){menu->page = 0; return;}
+      menu->options = option;
+      return;
+}
 }
 
+void changepage(Menu * menu){
+      char buffer[8];
+      fgets(buffer,sizeof(buffer),stdin);
+      menu->page=atoi(buffer);
+      printf("%d",menu->page);
+}
+
+void main_menu(Menu * menu){
+      menu->options =0;
+      menu->page = 0;
+      menu->couleur =0;
+      while(menu->options == 0){
+      affichageMenu(menu);
+      }
+      return;
+}
 
 
 
