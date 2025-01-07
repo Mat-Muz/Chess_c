@@ -68,7 +68,7 @@ void coup_valide_piece(int i, int j, Game *Jeu){
             y=i;
             for(y = i+1; y<hauteur && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) ; y++){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
-                printf("Tour , %d %d peut aller en %d %d \n", i,j, y, j);
+                //printf("Tour , %d %d peut aller en %d %d \n", i,j, y, j);
                 if (plateau[y][j] != 0x0) {break;}
             }
             for(y = i-1; y>=0 && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) ; y--){
@@ -291,11 +291,12 @@ void * del_p_list(p_liste * tete){
         temp = tete;
         tete = tete->suiv;
         free(temp);
+        temp = NULL;
     }
     return tete;
 }
 
-//TODO estvalide
+
 bool estvalide(Game * Jeu, int co_arrive[]){
       int a,b;
       a = Jeu->co[0];

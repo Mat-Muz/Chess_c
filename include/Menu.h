@@ -4,7 +4,9 @@
 #include "chess.h"
 #include "affichage.h"
 
-void affichageMenu();
+void affichageMenu(Menu *);
 void afficheimage(char *);
+void main_menu(Menu *);
+void changepage(Menu *);
 
 #endif

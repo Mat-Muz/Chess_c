@@ -11,5 +11,6 @@ void seppaligne(int );
 void retchr();
 void coin();
 void affichecoupvalide(Game *);
+void bordereau();
 
 #endif
