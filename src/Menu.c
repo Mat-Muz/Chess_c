@@ -38,7 +38,7 @@ void displayMenu(const char *Options[], int nboptions, int selected) {
 }
 
 void menuManager(Menu * menu) {
-    const char *mainMenu[] = {"New_game", "Blank", "Quitter"};
+    const char *mainMenu[] = {"New_game", "Last_Save", "Quitter"};
     const char *Page1[] = {"Classic-chess", "Custom", "Retour"};
     const char *subMenu2[] = {"Sub2-Option X", "Sub2-Option Y", "Retour"};
 
@@ -78,11 +78,10 @@ void menuManager(Menu * menu) {
                     menuSize = sizeof(Page1) / sizeof(Page1[0]);
                     menu->page = 1;
                     selected = 0;
-                } else if (strcmp(mainMenu[selected], "Option 2") == 0) {
-                    currentMenu = subMenu2;
-                    menuSize = sizeof(subMenu2) / sizeof(subMenu2[0]);
-                    menu->page = 2;
-                    selected = 0;
+                } else if (strcmp(mainMenu[selected], "Last_Save") == 0) {
+                    menu->savemode = 3;
+                    return;
+
                 }
                 break;
             case 1 : 

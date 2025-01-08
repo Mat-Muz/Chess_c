@@ -42,6 +42,9 @@ int main(){
         case 2:
             while(SelectSave(Jeu) != 1){}
             break;
+        case 3:
+            Last_save_Load(Jeu);
+            break;
     }
     }
  

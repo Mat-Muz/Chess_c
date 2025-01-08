@@ -133,3 +133,72 @@ void Autosave(Game * Jeu){
     }
     fclose(Save);
 }
+
+
+
+char* findMostRecentFile(const char *directoryPath) {
+    DIR *dir;
+    struct dirent *entry;
+    struct stat fileStat;
+
+    static char mostRecentFile[512]; // Tableau statique pour retourner la chaîne
+    time_t mostRecentTime = 0;
+
+    // Initialisation du chemin vide
+    mostRecentFile[0] = '\0';
+
+    // Ouvrir le répertoire
+    dir = opendir(directoryPath);
+    if (dir == NULL) {
+        perror("Erreur lors de l'ouverture du répertoire");
+        return NULL;
+    }
+
+    // Parcourir les fichiers du répertoire
+    while ((entry = readdir(dir)) != NULL) {
+        // Construire le chemin complet du fichier
+        char filePath[512];
+        snprintf(filePath, sizeof(filePath), "%s/%s", directoryPath, entry->d_name);
+
+        // Ignorer les entrées "." et ".."
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+            continue;
+        }
+
+        // Récupérer les informations du fichier avec stat
+        if (stat(filePath, &fileStat) == -1) {
+            perror("Erreur avec stat");
+            continue;
+        }
+
+        // Vérifier si c'est un fichier régulier
+        if (S_ISREG(fileStat.st_mode)) {
+            // Comparer les timestamps pour trouver le fichier le plus récent
+            if (fileStat.st_mtime > mostRecentTime) {
+                mostRecentTime = fileStat.st_mtime;
+                strncpy(mostRecentFile, filePath, sizeof(mostRecentFile));
+            }
+        }
+    }
+
+    // Fermer le répertoire
+    closedir(dir);
+
+    // Retourner le fichier le plus récent ou NULL si aucun fichier trouvé
+    return (mostRecentFile[0] != '\0') ? mostRecentFile : NULL;
+}
+
+void Last_save_Load(Game * Jeu){
+
+    char *Last_save = findMostRecentFile("./Save/AutoSave/");
+    
+    if (Last_save != NULL) {
+        printf("Le fichier le plus récent est : %s\n", Last_save);
+        SaveLoad(Last_save, Jeu);
+    } else {
+        printf("Aucun fichier trouvé dans le répertoire.\n");
+    }
+
+
+
+}
