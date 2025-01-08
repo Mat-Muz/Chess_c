@@ -1,0 +1,3 @@
+Make clean
+Make 
+./chess
