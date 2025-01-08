@@ -202,3 +202,40 @@ void Last_save_Load(Game * Jeu){
 
 
 }
+
+
+void Clear_Auto_Saves() {
+    DIR *dir;
+    struct dirent *entry;
+    struct stat fileStat;
+
+    // Ouvrir le répertoire
+    dir = opendir("./Save/AutoSave/");
+    if (dir == NULL) {
+        perror("Erreur lors de l'ouverture du répertoire");
+        return;
+    }
+
+    // Parcourir les fichiers et dossiers du répertoire
+    while ((entry = readdir(dir)) != NULL) {
+        // Construire le chemin complet du fichier
+        char filePath[512];
+        snprintf(filePath, sizeof(filePath), "%s/%s", "./Save/AutoSave", entry->d_name);
+
+
+        if (stat(filePath, &fileStat) == -1) {
+            perror("stat error");
+            continue;
+        }
+        // Vérifier si c'est un fichier régulier avant de le supprimer
+        if (S_ISREG(fileStat.st_mode)) {
+            if (unlink(filePath) == 0) {
+            } else {
+                perror("Erreur lors de la suppression du fichier ");
+            }
+        } 
+        }
+
+    // Fermer le répertoire
+    closedir(dir);
+}

@@ -151,7 +151,7 @@ void seppaligne(int longeur){
 
 void bordereau(){
     printf("\033[s");
-    printf("\033[H\033[107m\033[30m Now playing < chess.c > │ Version by Mattéo & Stanislas │ type help to see the list of command \n");
+    printf("\033[H\033[107m\033[30m Now playing < chess.c > │ Version by Mattéo & Stanislas │ type help to see the list of commands \n");
     printf("\033[u");
 }
 

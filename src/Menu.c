@@ -40,12 +40,12 @@ void displayMenu(const char *Options[], int nboptions, int selected) {
 void menuManager(Menu * menu) {
     const char *mainMenu[] = {"New_game", "Last_Save", "Quitter"};
     const char *Page1[] = {"Classic-chess", "Custom", "Retour"};
-    const char *subMenu2[] = {"Sub2-Option X", "Sub2-Option Y", "Retour"};
+    //const char *subMenu2[] = {"Sub2-Option X", "Sub2-Option Y", "Retour"};
 
     const char **currentMenu = mainMenu; // Pointeur vers le menu actuel
     int menuSize = sizeof(mainMenu) / sizeof(mainMenu[0]); // Taille du menu actuel
     int selected = 0; // Option sélectionnée
-    menu->page = 0; // Niveau du menu (0 = principal, 1 = sous-menu 1, 2 = sous-menu 2)
+    menu->page = 0; 
 
     printf("\n");
     displayMenu(currentMenu, menuSize, selected);
@@ -92,10 +92,7 @@ void menuManager(Menu * menu) {
                     menu->savemode=2;
                     return;
                   }
-                  break;
-
-            default:// Sous-menus
-                if (strcmp(currentMenu[selected], "Retour") == 0) {
+                  else if (strcmp(currentMenu[selected], "Retour") == 0) {
                     currentMenu = mainMenu;
                     menuSize = sizeof(mainMenu) / sizeof(mainMenu[0]);
                     menu->page = 0;

@@ -13,6 +13,7 @@ void tour2jeu(Game * );
 
 
 int main(){
+    system("clear");
     Game * Jeu = (Game *) malloc(sizeof(Game));
     Menu * menu = (Menu *) malloc(sizeof(Menu));
     menu->Jeu = Jeu;
@@ -28,6 +29,7 @@ int main(){
     switch(menu->savemode){
 
         case 1:
+        Clear_Auto_Saves();
         Jeu->hauteur = 8;
         Jeu->longeur = 8;
         Jeu->player = blanc;
@@ -40,6 +42,7 @@ int main(){
         initplt_vld(Jeu); //cree le plateau des coup valide a vide
         break;
         case 2:
+             Clear_Auto_Saves();
             while(SelectSave(Jeu) != 1){}
             break;
         case 3:
