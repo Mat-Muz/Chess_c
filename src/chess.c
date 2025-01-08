@@ -92,7 +92,7 @@ void tour2jeu(Game * Jeu ){
     if (Jeu->player == blanc){
         Autosave(Jeu);
         clear_plt_vld(Jeu);
-        pop_plt_vld(Jeu);
+        pop_plt_vld(Jeu, false);
         while ( !playermove(Jeu)){
                 Jeu->co[0] = -1;
                 Jeu->co[1] = -1;
@@ -113,7 +113,7 @@ void tour2jeu(Game * Jeu ){
     if (Jeu->player==noir){
         Autosave(Jeu);
         clear_plt_vld(Jeu);
-        pop_plt_vld(Jeu);
+        pop_plt_vld(Jeu,false);
         while ( !playermove(Jeu)){
                 Jeu->co[0] = -1;
                 Jeu->co[1] = -1;

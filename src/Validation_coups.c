@@ -2,18 +2,18 @@
 
 
 
-void pop_plt_vld(Game * Jeu){
+void pop_plt_vld(Game * Jeu, bool simu){
     //genere les elements de plt_vld
     int hauteur = Jeu->hauteur; 
     int longeur = Jeu->longeur;
     for(int i =0; i<hauteur;i++){
         for(int j = 0; j <longeur; j++){
-            coup_valide_piece(i,j,Jeu);
+            coup_valide_piece(i,j,Jeu , simu);
         }
     }
 }
 
-void coup_valide_piece(int i, int j, Game *Jeu){
+void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
     plateauvalide * plt_vld = Jeu->plt_vld;
     chessboard * plateau = Jeu->plateau;
     piece * current_piece = plateau[i][j];
@@ -308,3 +308,25 @@ bool estvalide(Game * Jeu, int co_arrive[]){
       }
       return false;
 }
+
+//TODO SIMULATION DE COUPS
+bool simulation_echec(Game * Jeu, int i, int j , int y ,int x ){
+    piece * Save_depart = Jeu->plateau[i][j];
+    piece * Save_arrive = Jeu->plateau[y][x];
+    Jeu->plateau[y][x] = Jeu->plateau[i][j];
+    Jeu->plateau[i][j] = 0x0;
+    plateauvalide * vrai_plt_vld = Jeu->plt_vld;
+    plateauvalide * fake_plt_valid = (plateauvalide *)creerplt_vld(Jeu);
+    Jeu->plt_vld = fake_plt_valid;
+    initplt_vld(Jeu);
+    pop_plt_vld(Jeu, true);
+    bool res = check_detection(Jeu , true);
+    clean_plt_vld(Jeu);
+    Jeu->plt_vld = vrai_plt_vld;
+    Jeu->plateau[i][j] = Save_depart;
+    Jeu->plateau[y][x] = Save_arrive;
+    return res;
+}
+
+
+//TODO ECHEC ET MAT
