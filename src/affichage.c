@@ -94,7 +94,7 @@ void affichecoupvalide(Game * Jeu){
             printf("\033[0m");
             printf("│");
             int co_case[] = {i,j};
-            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ⏺ "):printf("   ");}
+            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ● "):printf("   ");}
             else {
                 if(i == Jeu->co[0] && j == Jeu->co[1]){printf("\033[0;32m");} // couleur verte si case selectionne == piece joue
                 else if(estvalide(Jeu,co_case)){ //verif si piece ateignable par la select
@@ -117,7 +117,7 @@ void affichecoupvalide(Game * Jeu){
             printf("\033[0m");
             printf("│");
             int co_case[] = {i,j};
-            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ⏺ "):printf("   ");}
+            if(plateau[i][j]==0x0){ estvalide(Jeu,co_case)?printf("\033[0;35m ● "):printf("   ");}
             else {
                 if(i == Jeu->co[0] && j == Jeu->co[1]){printf("\033[0;32m");} // couleur verte si case selectionne == piece joue
                 else if(estvalide(Jeu,co_case)){ //verif si piece ateignable par la select
