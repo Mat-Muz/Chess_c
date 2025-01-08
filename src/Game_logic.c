@@ -7,7 +7,7 @@ int playermove(Game * Jeu){
     chessboard * plateau = Jeu->plateau;
     int casedepart[2];
     int casearrive[2];
-    check_detection(Jeu);
+    check_detection(Jeu, false);
     selectcoord(Jeu, 0); // case de départ
     if(Jeu->commande){return -1;} //tt commande demandant de sortir de cette fonction
     casedepart[0] = Jeu->co[0];
@@ -15,7 +15,7 @@ int playermove(Game * Jeu){
     piece * current_piece = plateau[casedepart[0]][casedepart[1]];
     
     affichecoupvalide(Jeu);
-    check_detection(Jeu);
+    check_detection(Jeu,false);
     selectcoord(Jeu, 1); // case d'arrivée
     if(Jeu->commande){return -1;} //tt commande demandant de sortir de cette fonction
     casearrive[0] = Jeu->co[0];
@@ -62,7 +62,7 @@ int playermove(Game * Jeu){
 
 
 
-void check_detection(Game * Jeu){
+bool check_detection(Game * Jeu, bool silencieux){
       int hauteur = Jeu->hauteur;
       int longeur = Jeu->longeur;
       chessboard* plateau = Jeu->plateau;
@@ -71,16 +71,18 @@ void check_detection(Game * Jeu){
                   if (plateau[i][j] != 0x0 && plateau[i][j]->type == roi && case_attaque(Jeu, i, j))
                   {     
                         if(plateau[i][j]->couleur == Jeu->player){
+                        if(!silencieux){
                         printf("\033[s");
                         coin();
-                        printf("\033[1A\033[31m Le roi est en echec \033[0m\033[u");
-                        return ;
+                        printf("\033[1A\033[31m Le roi est en echec \033[0m\033[u");}
+                        return true;
                         }
 
                   }
                   
             }     
       }
+      return false;
 
 }
 

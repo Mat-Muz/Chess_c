@@ -26,12 +26,12 @@ void displayMenu(const char *Options[], int nboptions, int selected) {
     char marge[128] = "\033[";
     strcat(marge,MARGE_GAUCHE);
     strcat(marge,"G");
-    printf("%s",marge);
+    printf("%s     ",marge);
     for (int i = 0; i < nboptions; i++) {
         if (i == selected) {
-            printf("\033[1;32m[%s]\033[0m ", Options[i]); // Option sélectionnée en vert
+            printf("\033[1;32m[%s]\033[0m     ", Options[i]); // Option sélectionnée en vert
         } else {
-            printf("%s ", Options[i]);
+            printf("%s     ", Options[i]);
         }
     }
     fflush(stdout);
@@ -70,6 +70,7 @@ void menuManager(Menu * menu) {
             case 0: //Menu principal
                 if (strcmp(mainMenu[selected], "Quitter") == 0) {
                     printf("\nVous avez quitté le programme.\n");
+                    disableRawMode();
                     exit(EXIT_SUCCESS);
                     break;
                 } else if (strcmp(mainMenu[selected], "New_game") == 0) {

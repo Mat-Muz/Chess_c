@@ -13,7 +13,7 @@ void selectcoord(Game* Jeu, int cas){
     while(!coupvalide){
     lettre = 0 ;
     chiffre = 0;
-    if(cas == 0){ printf("choisis ta case de départ : "); } else {printf("choisis ta case de d'arrivée : ");}
+    if(cas == 0){ printf(" Choisis ta case de départ : ");} else { printf(" Choisis ta case de d'arrivée : "); }
 
     user_text_input(Jeu,coordonne);
     if(Jeu->commande){return;} //tt commande demandant de sortir de cette fonction 
@@ -30,10 +30,10 @@ void selectcoord(Game* Jeu, int cas){
     switch (cas){
         case 0: //case de départ
             if (chiffre == -1 || lettre == -1 || chiffre>=Jeu->hauteur || lettre>=Jeu->longeur){
-                printf("essaie une case qui existe \n");
+                printf(" Essaie une case qui existe \n");
                 coupvalide = false;}
             else if (Jeu->plateau[chiffre][lettre] == NULL || Jeu->plateau[chiffre][lettre]->couleur != Jeu->player){ 
-                printf("Tu ne peux bouger que tes pions \n");
+                printf(" Tu ne peux bouger que tes pions \n");
                 coupvalide = false; }
             else coupvalide=true;
             break;
@@ -42,7 +42,7 @@ void selectcoord(Game* Jeu, int cas){
             coarrive[0] = chiffre;
             coarrive[1] = lettre;
             if (chiffre == -1 || lettre == -1 || chiffre>=Jeu->hauteur || lettre>=Jeu->longeur){
-                printf("essaie une case qui existe \n");
+                printf(" Essaie une case qui existe \n");
                 coupvalide = false;}
             else if ( estvalide(Jeu,coarrive)){ 
                 coupvalide = true; }
@@ -50,7 +50,7 @@ void selectcoord(Game* Jeu, int cas){
                 return;}
             else {
                 coupvalide=false;
-                printf("Essaie un coup possible \n");
+                printf(" Essaie un coup possible \n");
             }
             break;
     }

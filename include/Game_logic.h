@@ -7,7 +7,7 @@
 
 int playermove(Game *);
 
-void check_detection(Game * ); //detecte si le joueur actuel est en echec
+bool check_detection(Game *, bool ); //detecte si le joueur actuel est en echec
 
 bool case_attaque(Game * , int , int );//detecte si la case est attacké par une des pieces 
 
