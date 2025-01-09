@@ -3,7 +3,6 @@
 
 
 int playermove(Game * Jeu){
-
     chessboard * plateau = Jeu->plateau;
     int casedepart[2];
     int casearrive[2];
@@ -70,11 +69,12 @@ bool check_detection(Game * Jeu, bool silencieux){
             for(int j = 0; j<longeur; j++){
                   if (plateau[i][j] != 0x0 && plateau[i][j]->type == roi && case_attaque(Jeu, i, j))
                   {     
-                        if(plateau[i][j]->couleur == Jeu->player){
-                        if(!silencieux){
+                   if(plateau[i][j]->couleur == Jeu->player){
+                        if(silencieux == false){
                         printf("\033[s");
                         coin();
-                        printf("\033[1A\033[31m Le roi est en echec \033[0m\033[u");}
+                        printf("\033[1A\033[31m Le roi est en echec \033[0m\033[u");
+                        }
                         return true;
                         }
 

@@ -93,9 +93,9 @@ void initplt_vld(Game * Jeu){
             plt_valide[i][j] = NULL;
             //printf("i : %d, j : %d , initalized as %p |" , i, j , plt_valide[i][j]);
         }
-        printf("\n");
+        //printf("\n");
     }
-    printf("\n");
+    //printf("\n");
 }
 
 

@@ -10,6 +10,8 @@ void clear_plt_vld(Game *);
 void * del_p_list(p_liste *);
 p_liste* add_p_liste(p_liste *, piece*);
 
+bool en_passant_possible(Game * Jeu, int a , int b, piece * current_piece);
+bool simulation_echec(Game * Jeu, int i, int j , int y ,int x );
 bool estvalide(Game *, int *);
 
 #endif

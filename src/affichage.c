@@ -75,6 +75,7 @@ void afficheplateau( Game * Jeu ){
     printf("\033[0m");
     printf("\n");
     afficheJoueur(Jeu);
+    
 }
 
 
