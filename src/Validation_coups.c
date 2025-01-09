@@ -318,6 +318,7 @@ bool estvalide(Game * Jeu, int co_arrive[]){
 
 //TODO SIMULATION DE COUPS
 bool simulation_echec(Game * Jeu, int i, int j , int y ,int x ){
+    if(Jeu->plateau[i][j]->couleur != Jeu->player){ return false;}
     piece * Save_depart = Jeu->plateau[i][j];
     piece * Save_arrive = Jeu->plateau[y][x];
     Jeu->plateau[y][x] = Jeu->plateau[i][j];
