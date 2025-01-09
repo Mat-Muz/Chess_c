@@ -35,7 +35,7 @@ void afficheplateau( Game * Jeu ){
  bordereau();
  coin();
  printf("\033[0m");
- if(Jeu->player == blanc ){ //symétrie due au tableau 
+ if(Jeu->player >= blanc ){ //symétrie due au tableau 
     for(int i = Jeu->hauteur -1;i>=0;i--){
         seppaligne(Jeu->longeur);
         retchr();
@@ -178,7 +178,10 @@ void afficheJoueur(Game * Jeu){
     printf("\033[107;30m"); // background blanc clair et ecriure noire
     if(Jeu->winner == 0){
     printf("  PLAYER  ");}
-    else printf("  WINNER  "); 
+    else if (abs(Jeu->winner) == 1){
+    printf("  WINNER  ");}
+    else if (abs(Jeu->winner) == 2){
+        printf("   PAT   ");}
     printf("\033[4;2H");
     if(Jeu->player == blanc){
          printf("\033[47;30m  BLANC   \033[m");} //BG BLANC FG noir

@@ -29,16 +29,6 @@ int playermove(Game * Jeu){
     //Mouvement
 
     if(plateau[casearrive[0]][casearrive[1]] != 0x0){
-        
-        //Detection mort du roi
-        if(plateau[casearrive[0]][casearrive[1]]->type == roi){
-            if (plateau[casearrive[0]][casearrive[1]]->couleur == blanc )
-            {
-            Jeu->winner = noir;
-            }
-            else  Jeu->winner = blanc;
-        }
-
         free(plateau[casearrive[0]][casearrive[1]]) ; 
     }
     plateau[casearrive[0]][casearrive[1]] = plateau[casedepart[0]][casedepart[1]];
@@ -99,4 +89,27 @@ bool case_attaque(Game * Jeu, int i, int j){
             tete = tete->suiv;
       }
       return false;
+}
+
+bool player_cant_mv(Game * Jeu){
+    for(int i = 0; i<Jeu->hauteur; i++){
+        for(int j = 0; j<Jeu->longeur; j++){
+            p_liste * temp = Jeu->plt_vld[i][j];
+            while(temp != NULL){
+                if(temp->p->couleur == Jeu->player){
+                    return false;
+                }
+                temp = temp->suiv;
+            }
+        }
+    }
+    return true;
+}
+
+int fin_de_partie(Game * Jeu){
+      bool check = check_detection(Jeu,true);
+      bool nomv = player_cant_mv(Jeu);
+      if (check && nomv){Jeu->winner = -Jeu->player; return 1;} //Check mate
+      if (nomv && !check){Jeu->winner = 2*Jeu->player; return 2;} //PAT      
+      return 0;
 }

@@ -345,4 +345,4 @@ bool simulation_echec(Game * Jeu, int i, int j , int y ,int x ){
 }
 
 
-//TODO ECHEC ET MAT
+

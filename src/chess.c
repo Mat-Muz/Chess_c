@@ -93,6 +93,7 @@ void tour2jeu(Game * Jeu ){
         Autosave(Jeu);
         clear_plt_vld(Jeu);
         pop_plt_vld(Jeu, false);
+        if(fin_de_partie(Jeu) != 0){return;}
         while ( !playermove(Jeu)){
                 Jeu->co[0] = -1;
                 Jeu->co[1] = -1;
@@ -106,7 +107,6 @@ void tour2jeu(Game * Jeu ){
     }
     Jeu->co[0] = -1;
     Jeu->co[1] = -1;
-    if (Jeu->winner != 0){return;}
     
     afficheplateau(Jeu);
 
@@ -114,6 +114,7 @@ void tour2jeu(Game * Jeu ){
         Autosave(Jeu);
         clear_plt_vld(Jeu);
         pop_plt_vld(Jeu,false);
+        if(fin_de_partie(Jeu) != 0){return;}
         while ( !playermove(Jeu)){
                 Jeu->co[0] = -1;
                 Jeu->co[1] = -1;
