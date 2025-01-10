@@ -38,6 +38,7 @@ struct piece{
     int type;
     int couleur;
     int mvd;
+    int pst; //mvd du passé
 };
 
 

@@ -204,6 +204,32 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
                  plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
                  //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
+            // ROQUE
+            if(current_piece->mvd == 0){
+                for( (y=i , x=j+1); x<longeur ; x++ ){
+                    if(plateau[y][x] == 0x0){
+                        continue;
+                    }
+                    else if(plateau[y][x]->type == tour && plateau[y][x]->couleur == current_piece->couleur && plateau[y][x]->mvd == 0 &&  ( simu || !(simulation_echec(Jeu, i, j, i, j+1) || simulation_echec(Jeu, i, j, i, j+2) ))){
+                        plt_vld[i][j+2] = add_p_liste(plt_vld[i][j+2],current_piece);
+                        break;
+                    }
+                    else break; 
+                }
+                for( (y=i , x=j-1); x>=0 ; x-- ){
+                    if(plateau[y][x] == 0x0){
+                        continue;
+                    }
+                    else if(plateau[y][x]->type == tour && plateau[y][x]->couleur == current_piece->couleur && plateau[y][x]->mvd == 0 &&  ( simu || !(simulation_echec(Jeu, i, j, i, j-1) || simulation_echec(Jeu, i, j, i, j-2) ))){
+                        plt_vld[i][j-2] = add_p_liste(plt_vld[i][j-2],current_piece);
+                        break;
+                    } 
+                    else break;
+                }
+            }
+
+
+
             break;
         
         case cheval:
@@ -298,7 +324,7 @@ void * del_p_list(p_liste * tete){
 
 bool en_passant_possible(Game * Jeu, int a , int b, piece * current_piece){
     chessboard * plateau = Jeu->plateau;
-    if (plateau[a][b]->couleur != current_piece->couleur && plateau[a][b]->type == pion && ((plateau[a][b]->mvd == Jeu->round && plateau[a][b]->couleur == blanc ) || (plateau[a][b]->mvd == Jeu->round-1 && plateau[a][b]->couleur == noir ))){
+    if (plateau[a][b]->couleur != current_piece->couleur && plateau[a][b]->type == pion && plateau[a][b]->pst == 0 && ((plateau[a][b]->mvd == Jeu->round && plateau[a][b]->couleur == blanc ) || (plateau[a][b]->mvd == Jeu->round-1 && plateau[a][b]->couleur == noir ))){
         return true;
     }
     return false;

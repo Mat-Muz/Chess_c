@@ -15,17 +15,15 @@ void CreateSave(Game * Jeu){
 
 
     Save = fopen(dest,"w");
-    fprintf( Save ,"h: %d hauteur\nl: %d longeur \np: %d current player\nw: %d winner\nr: %d tour de jeu\ni:j;couleur;mvd;type #c'est pour les pieces\n", Jeu->hauteur, Jeu->longeur, Jeu->player, Jeu->winner, Jeu->round);
+    fprintf( Save ,"h: %d hauteur\nl: %d longeur \np: %d current player\nw: %d winner\nr: %d tour de jeu\ni:j;couleur;type;mvd;pst #c'est pour les pieces\n", Jeu->hauteur, Jeu->longeur, Jeu->player, Jeu->winner, Jeu->round);
     for(int i = 0; i < Jeu->longeur; i++){
         for(int j = 0; j < Jeu->hauteur; j++){
             piece * lecture = Jeu->plateau[i][j];
             if(lecture == NULL){
             fprintf( Save ,"%d:%d\n",i,j);
             }
-            else fprintf( Save ,"%d:%d;%d;%d;%d\n", i,j,lecture->couleur, lecture->mvd , lecture->type);
-    }
-    }
-
+            else fprintf( Save ,"%d:%d;%d;%d;%d;%d\n", i,j,lecture->couleur, lecture->type, lecture->mvd , lecture->pst);
+    }}
     fclose(Save);
     return;
 
@@ -92,9 +90,11 @@ int SaveLoad(char dest[] ,Game * Jeu){
             (strstr(buffer, "-1") != NULL) ? (couleur = noir) : (couleur = blanc);  
             //printf(" couleur : %d \n", couleur);
             lecteur = strchr(lecteur, ';')+1;
+            int type = convertstrint(lecteur);
+            lecteur = strchr(lecteur, ';')+1;
             int moved = convertstrint(lecteur);
             lecteur = strchr(lecteur, ';')+1;
-            int type = convertstrint(lecteur);
+            int past = convertstrint(lecteur);
             Jeu->plateau[i][j] = malloc(sizeof(piece));
             piece * c_piece = Jeu->plateau[i][j];
             if ( Jeu->plateau[i][j] == 0x0){
@@ -104,6 +104,7 @@ int SaveLoad(char dest[] ,Game * Jeu){
             c_piece->couleur = couleur;
             c_piece->mvd = moved;
             c_piece->type = type;
+            c_piece->pst = past;
         }
         //else printf("rien \n");
 
@@ -121,14 +122,14 @@ void Autosave(Game * Jeu){
     else sprintf(round,"%d_%s",Jeu->round, "noir");
     strcat(dest, round);
     Save = fopen(dest,"w");
-    fprintf( Save ,"h: %d hauteur\nl: %d longeur \np: %d current player\nw: %d winner\nr: %d tour de jeu\ni:j;couleur;mvd;type #c'est pour les pieces\n", Jeu->hauteur, Jeu->longeur, Jeu->player, Jeu->winner, Jeu->round);
+    fprintf( Save ,"h: %d hauteur\nl: %d longeur \np: %d current player\nw: %d winner\nr: %d tour de jeu\ni:j;couleur;type;mvd;pst #c'est pour les pieces\n", Jeu->hauteur, Jeu->longeur, Jeu->player, Jeu->winner, Jeu->round);
     for(int i = 0; i < Jeu->longeur; i++){
         for(int j = 0; j < Jeu->hauteur; j++){
             piece * lecture = Jeu->plateau[i][j];
             if(lecture == NULL){
             fprintf( Save ,"%d:%d\n",i,j);
             }
-            else fprintf( Save ,"%d:%d;%d;%d;%d\n", i,j,lecture->couleur, lecture->mvd , lecture->type);
+            else fprintf( Save ,"%d:%d;%d;%d;%d;%d\n", i,j,lecture->couleur, lecture->type, lecture->mvd , lecture->pst);
     }
     }
     fclose(Save);

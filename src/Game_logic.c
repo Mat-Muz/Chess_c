@@ -45,6 +45,25 @@ int playermove(Game * Jeu){
                   plateau[casearrive[0]-current_piece->couleur][casearrive[1]] = 0x0;
             }
         }
+    if(plateau[casearrive[0]][casearrive[1]]->type == roi && casearrive[0] == casearrive[0] ){
+        if(casedepart[1]-casearrive[1] == -2){
+        //roque king side
+        int j;
+        for(j = casearrive[1]; (plateau[casearrive[0]][j] == 0x0 || plateau[casearrive[0]][j]->type != tour );j++){}
+            plateau[casearrive[0]][casearrive[1]-1] = plateau[casearrive[0]][j];
+            plateau[casearrive[0]][j] = 0X0;
+            plateau[casearrive[0]][casearrive[1]-1]->mvd = Jeu->round;
+        }else if (casedepart[1]-casearrive[1] == 2){
+            //roque queen side
+            int j;
+            for(j = casearrive[1]; ( plateau[casearrive[0]][j] == 0x0 || plateau[casearrive[0]][j]->type != tour );j--){}
+            plateau[casearrive[0]][casearrive[1]+1] = plateau[casearrive[0]][j];
+            plateau[casearrive[0]][j] = 0X0;
+            plateau[casearrive[0]][casearrive[1]+1]->mvd = Jeu->round;
+        }
+    }
+
+    plateau[casearrive[0]][casearrive[1]]->pst = plateau[casearrive[0]][casearrive[1]]->mvd;
     plateau[casearrive[0]][casearrive[1]]->mvd = Jeu->round;
     return 1; // Success
 }
