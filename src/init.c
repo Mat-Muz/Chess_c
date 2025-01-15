@@ -109,6 +109,7 @@ void clean_Game(Game * Jeu){
         clean_plt_vld(Jeu);
         
     }
+    //Clean IA
     Jeu->player = 0;
     Jeu->hauteur = 0;
     Jeu->longeur = 0;
@@ -170,7 +171,6 @@ void clean_plt_vld(Game * Jeu){
         Jeu->plt_vld = NULL;
     }
 }
-
 
 
 

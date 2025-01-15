@@ -22,6 +22,8 @@ typedef struct piece piece;
 typedef struct Game Game;
 typedef struct Menu Menu;
 typedef struct p_liste p_liste;
+typedef struct IA IA;
+typedef struct co co; 
 typedef int bool;
 
 typedef piece ** chessboard; // plateau contenant une piece placée a la coordonnée i,j 
@@ -39,6 +41,8 @@ struct piece{
     int couleur;
     int mvd;
     int pst; //mvd du passé
+
+    //co * coups;
 };
 
 
@@ -49,6 +53,7 @@ struct Game{
     int hauteur;
     int longeur;
     int mode;
+    //IA * ordi;
     // var de game loop
     plateauvalide * plt_vld;
     int player;
@@ -70,8 +75,22 @@ struct Menu{
 
 struct p_liste{
     
-    piece * p; //pointeur ver une piece qui peut aller sur la case 
+    piece * p; //pointeur vers une piece qui peut aller sur la case 
     p_liste * suiv;
+};
+
+struct IA{
+    int couleur;
+
+    co * pieces;
+
+};
+
+struct co{
+    int chiffre;
+    int lettre;
+
+    co * suiv;
 };
 
 #endif

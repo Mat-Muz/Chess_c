@@ -366,7 +366,7 @@ bool simulation_echec(Game * Jeu, int i, int j , int y ,int x ){
     Jeu->plt_vld = vrai_plt_vld;
     Jeu->plateau[i][j] = Save_depart;
     Jeu->plateau[y][x] = Save_arrive;
-    if(Jeu->plateau[y_1][x] ==0x0){ Jeu->plateau[y_1][x] = Enpass;}
+    if(y_1 < Jeu->hauteur && y_1 >= 0 && Jeu->plateau[y_1][x] ==0x0){ Jeu->plateau[y_1][x] = Enpass;}
     return res;
 }
 
