@@ -3,7 +3,6 @@
 
 
 int playermove(Game * Jeu){
-    chessboard * plateau = Jeu->plateau;
     int casedepart[2];
     int casearrive[2];
     check_detection(Jeu, false);
@@ -11,7 +10,7 @@ int playermove(Game * Jeu){
     if(Jeu->commande){return -1;} //tt commande demandant de sortir de cette fonction
     casedepart[0] = Jeu->co[0];
     casedepart[1] =  Jeu->co[1];
-    piece * current_piece = plateau[casedepart[0]][casedepart[1]];
+
     
     affichecoupvalide(Jeu);
     check_detection(Jeu,false);
@@ -27,6 +26,15 @@ int playermove(Game * Jeu){
     }
     
     //Mouvement
+    piece_mv(Jeu, casedepart, casearrive);
+
+    return 1; // Success
+}
+
+
+void piece_mv(Game * Jeu, int casedepart[] , int casearrive[] ){
+ chessboard * plateau = Jeu->plateau;
+ piece * current_piece = plateau[casedepart[0]][casedepart[1]];
 
     if(plateau[casearrive[0]][casearrive[1]] != 0x0){
         free(plateau[casearrive[0]][casearrive[1]]) ; 
@@ -45,7 +53,7 @@ int playermove(Game * Jeu){
                   plateau[casearrive[0]-current_piece->couleur][casearrive[1]] = 0x0;
             }
         }
-    if(plateau[casearrive[0]][casearrive[1]]->type == roi && casearrive[0] == casearrive[0] ){
+    if(plateau[casearrive[0]][casearrive[1]]->type == roi && casedepart[0] == casearrive[0] ){
         if(casedepart[1]-casearrive[1] == -2){
         //roque king side
         int j;
@@ -65,9 +73,7 @@ int playermove(Game * Jeu){
 
     plateau[casearrive[0]][casearrive[1]]->pst = plateau[casearrive[0]][casearrive[1]]->mvd;
     plateau[casearrive[0]][casearrive[1]]->mvd = Jeu->round;
-    return 1; // Success
 }
-
 
 
 bool check_detection(Game * Jeu, bool silencieux){

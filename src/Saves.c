@@ -105,6 +105,7 @@ int SaveLoad(char dest[] ,Game * Jeu){
             c_piece->mvd = moved;
             c_piece->type = type;
             c_piece->pst = past;
+            c_piece->coups = NULL;
         }
         //else printf("rien \n");
 

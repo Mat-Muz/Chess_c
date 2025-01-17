@@ -7,6 +7,7 @@
 #include "Game_logic.h"
 #include "commandes.h"
 #include "Menu.h"
+#include "IA.h"
 
 void tour2jeu(Game * );
 
@@ -14,6 +15,7 @@ void tour2jeu(Game * );
 
 int main(){
     system("clear");
+    srand(time(0x0));
     Game * Jeu = (Game *) malloc(sizeof(Game));
     Menu * menu = (Menu *) malloc(sizeof(Menu));
     menu->Jeu = Jeu;
@@ -90,19 +92,30 @@ void tour2jeu(Game * Jeu ){
     afficheplateau(Jeu);
     
     if (Jeu->player == blanc){
+        player_blanc : 
         Autosave(Jeu);
         clear_plt_vld(Jeu);
         pop_plt_vld(Jeu, false);
         if(fin_de_partie(Jeu) != 0){return;}
+        if(Jeu->ordi != 0x0 && Jeu->ordi->couleur == Jeu->player) Ordi_move(Jeu);
+        else{
         while ( !playermove(Jeu)){
                 Jeu->co[0] = -1;
                 Jeu->co[1] = -1;
             afficheplateau(Jeu);
-            if(Jeu->commande){return;}//tt commande demandant de sortir de cette fonction 
+            if(Jeu->commande != 0 && Jeu->commande != 6  ){ return;} //tt commande demandant de sortir de cette fonction 
+            else if(Jeu->commande == 6){
+            exec_commande(Jeu);
+             goto player_blanc;
+             } 
         }
-        if(Jeu->commande){return;}//tt commande demandant de sortir de cette fonction
+            if(Jeu->commande != 0 && Jeu->commande != 6  ){ return;} //tt commande demandant de sortir de cette fonction 
+            else if(Jeu->commande == 6){ 
+                exec_commande(Jeu); 
+                goto player_blanc;} 
 
         //suite
+        }
         Jeu->player = noir;
     }
     Jeu->co[0] = -1;
@@ -111,18 +124,24 @@ void tour2jeu(Game * Jeu ){
     afficheplateau(Jeu);
 
     if (Jeu->player==noir){
+        player_noir:
         Autosave(Jeu);
         clear_plt_vld(Jeu);
         pop_plt_vld(Jeu,false);
         if(fin_de_partie(Jeu) != 0){return;}
+        if(Jeu->ordi != 0x0 && Jeu->ordi->couleur == Jeu->player) Ordi_move(Jeu);
+        else{
         while ( !playermove(Jeu)){
                 Jeu->co[0] = -1;
                 Jeu->co[1] = -1;
             afficheplateau(Jeu);
-            if(Jeu->commande){return;} //tt commande demandant de sortir de cette fonction 
+            if(Jeu->commande != 0 && Jeu->commande != 6 ){ return;} //tt commande demandant de sortir de cette fonction 
+            else if(Jeu->commande == 6){ exec_commande(Jeu); goto player_noir;} 
         }
-        if(Jeu->commande){return;}//tt commande demandant de sortir de cette fonction
+        if(Jeu->commande != 0 && Jeu->commande != 6 ){ return;}
+            else if(Jeu->commande == 6){ exec_commande(Jeu); goto player_noir;}
         //suite 
+        }
         Jeu->player = 0;
     }
     Jeu->round++;

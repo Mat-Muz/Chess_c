@@ -6,6 +6,7 @@
 #include "affichage.h"
 
 int playermove(Game *);
+void piece_mv(Game * Jeu, int casedepart[] , int casearrive[] );
 
 bool check_detection(Game *, bool ); //detecte si le joueur actuel est en echec
 

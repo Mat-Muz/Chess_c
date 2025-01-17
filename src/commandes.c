@@ -2,7 +2,7 @@
 #include "Saves.h"
 #include "init.h"
 
-#define NB_CMD 5
+#define NB_CMD 6
 int pass =0;
 
 void exec_commande(Game * Jeu){
@@ -40,13 +40,18 @@ void exec_commande(Game * Jeu){
             else sprintf(round,"%d_%s",Jeu->round-1, "noir");
             strcat(dest, round);
             SaveLoad(dest,Jeu);
+            break;
+        case 6:
+            if (pass == 0){pass++; return; }
+            init_IA(Jeu);
+            break;
     }
     pass = 0;
     Jeu->commande = 0;
 } 
 
 int test_commande(char * text){
-    char CMD_List[NB_CMD][255]={"quit","save","reset","help","back"};
+    char CMD_List[NB_CMD][255]={"quit","save","reset","help","back","IA"};
     for(int i = 0; i<NB_CMD; i++){
         if (strcmp(text, CMD_List[i]) == 0){
             return i+1;

@@ -34,6 +34,7 @@ switch (mode){
             for(int j = 0; j <longeur; j++){
                 if( j<8 && (i==0 || i == 1 || i ==hauteur-2 ||i == hauteur-1 )){
                     plateau[i][j] = (piece *) malloc(sizeof(piece)) ;
+                    plateau[i][j]->coups = NULL;
                     if (i ==0 ||i == 1){ //Atention A1 en 0,0 H1 en 0,7 H8 en 7,7
                         plateau[i][j]->couleur= blanc;
                     }
@@ -101,6 +102,7 @@ void initplt_vld(Game * Jeu){
 
 void clean_Game(Game * Jeu){
     //Netoie le jeu en cours 
+    clear_coup(Jeu);
     if(Jeu->plateau != NULL){
         clean_board(Jeu);
         
@@ -109,7 +111,10 @@ void clean_Game(Game * Jeu){
         clean_plt_vld(Jeu);
         
     }
-    //Clean IA
+    if(Jeu->ordi != NULL){
+        clean_IA(Jeu);
+    }
+
     Jeu->player = 0;
     Jeu->hauteur = 0;
     Jeu->longeur = 0;
@@ -173,4 +178,75 @@ void clean_plt_vld(Game * Jeu){
 }
 
 
+IA * init_IA(Game * Jeu){
+    if(!Jeu->ordi) {
+        Jeu->ordi = (IA *)malloc(sizeof(IA));
+        if (!Jeu->ordi){ perror("ERREUR d'allocation"); exit(1);}
+        }
+    Jeu->ordi->couleur = Jeu->player;
+    Jeu->ordi->pieces = NULL;
+    return Jeu->ordi;
+}
 
+void clean_IA(Game * Jeu){
+    IA * IA = Jeu->ordi;
+    if(IA->pieces == 0X0){
+        supp_co(&(IA->pieces));
+    }
+    free(IA);
+    Jeu->ordi = NULL;
+}
+
+void supp_co(co **tete) {
+    if (*tete == NULL) {
+        return; 
+    }
+    co *temp;
+    co *current = (*tete)->suiv;
+    while (current != *tete) {
+        temp = current->suiv;
+        free(current);
+        current = temp;
+    }    
+    free(*tete);
+    *tete = NULL; 
+}
+
+co* creer_noeud(int chiffre, int lettre) {
+    co* nouveau = (co*)malloc(sizeof(co));
+    if (!nouveau) {
+        printf("Erreur d'allocation mémoire\n");
+        exit(1);
+    }
+    nouveau->chiffre = chiffre;
+    nouveau->lettre = lettre;
+    nouveau->suiv = NULL;
+    return nouveau;
+}
+
+co* ajouter_co(co* tete, int chiffre, int lettre) {
+    co* nouveau = creer_noeud(chiffre,lettre);
+    if (tete == NULL) {
+        nouveau->suiv = nouveau; // Premier élément pointe sur lui-même
+        return nouveau;
+    }
+    co* temp = tete;
+    while (temp->suiv != tete) {
+        temp = temp->suiv;
+    }
+    temp->suiv = nouveau;
+    nouveau->suiv = tete;
+    return tete;
+}
+
+void clear_coup(Game* Jeu){
+int hauteur = Jeu->hauteur; 
+int longeur = Jeu->longeur;
+    for(int i =0; i<hauteur;i++){
+        for(int j = 0; j <longeur; j++){
+            if(Jeu->plateau[i][j] != 0X0){
+                  supp_co(&(Jeu->plateau[i][j]->coups));
+            }
+        }
+    }
+}

@@ -28,16 +28,18 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             x=j;
             if (plateau[y][x] == 0x0 && (simu || !simulation_echec(Jeu, i, j, y, x))){
                     plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
-                    // printf("pion , %d %d peut aller en %d %d \n", i,j, i+current_piece->couleur, j);
+                    if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
             }
             x++;
             if (x<longeur && plateau[y][x] != 0x0 && plateau[y][x]->couleur != current_piece->couleur && ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 // printf("pion , %d %d peut aller en %d %d \n", i,j, i+current_piece->couleur, j+1);
             }
             x=j-1;
             if (x>= 0 && plateau[y][x] != 0x0 && plateau[y][x]->couleur != current_piece->couleur && ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 // printf("pion , %d %d peut aller en %d %d \n", i,j, i+current_piece->couleur, j-1);
             }
             x=j;
@@ -45,15 +47,18 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
                   y=y+current_piece->couleur;
                   if (plateau[y][x] == 0x0){
                     plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                    if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                     // printf("pion , %d %d peut aller en %d %d \n", i,j, i+current_piece->couleur, j);
             }
             }
             //cas en passant 
             if((j+1)<longeur && plateau[i][j+1] !=NULL && en_passant_possible(Jeu, i , j+1, current_piece) && ( simu || !simulation_echec(Jeu, i,j, i+current_piece->couleur, j+1))){
                 plt_vld[i+current_piece->couleur][j+1] = add_p_liste(plt_vld[i+current_piece->couleur][j+1],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i+current_piece->couleur,j+1);
             }
             if((j-1)>=0 && plateau[i][j-1] !=NULL && en_passant_possible(Jeu, i , j-1, current_piece) && ( simu || !simulation_echec(Jeu, i,j, i+current_piece->couleur, j-1))){
                 plt_vld[i+current_piece->couleur][j-1] = add_p_liste(plt_vld[i+current_piece->couleur][j-1],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups,i+current_piece->couleur,j-1);
             }
 
 
@@ -68,21 +73,25 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i;
             for(y = i+1; y<hauteur && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, j)); y++){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,j);
                 //printf("Tour , %d %d peut aller en %d %d \n", i,j, y, j);
                 if (plateau[y][j] != 0x0) {break;}
             }
             for(y = i-1; y>=0 && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, j)); y--){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,j);
                 //printf("Tour , %d %d peut aller en %d %d \n", i,j, y, j);
                 if (plateau[y][j] != 0x0) {break;}
             }
              for(x=j+1; x<longeur && (plateau[i][x] == 0x0 || plateau[i][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, i, x)) ; x++){
                 plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,x);
                 //printf("Tour , %d %d peut aller en %d %d \n", i,j, i, x);
                 if (plateau[i][x] != 0x0) {break;}
             }
             for(x=j-1; x>=0 && (plateau[i][x] == 0x0 || plateau[i][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, i, x)) ; x--){
                  plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
+                 if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,x);
                  //printf("Tour , %d %d peut aller en %d %d \n", i,j, i, x);
                 if (plateau[i][x] != 0x0) {break;}
             }
@@ -93,22 +102,26 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i;
             for((y = i+1 , x=j+1); y<hauteur && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)); (y++ , x++)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("fou , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
             for((y = i-1 , x=j+1); y>=0 && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)) ; (y-- , x++)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("fou , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
 
             for((y = i-1 , x=j-1); y>=0 && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)); (y-- , x--)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("fou , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
             for((y = i+1 , x=j-1); y<hauteur && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)) ; (y++ , x--)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("fou , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
@@ -119,42 +132,50 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i;         
             for(y = i+1; y<hauteur && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, j)) ; y++){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,j);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, y, j);
                 if (plateau[y][j] != 0x0) {break;}
             }
             for(y = i-1; y>=0 && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, j)) ; y--){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,j);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, y, j);
                 if (plateau[y][j] != 0x0) {break;}
             }
              for(x=j+1; x<longeur && (plateau[i][x] == 0x0 || plateau[i][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, i, x)); x++){
                 plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,x);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, i, x);
                 if (plateau[i][x] != 0x0) {break;}
             }
             for(x=j-1; x>=0 && (plateau[i][x] == 0x0 || plateau[i][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, i, x)) ; x--){
                 plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,x);
                  //printf("Dame , %d %d peut aller en %d %d \n", i,j, i, x);
                 if (plateau[i][x] != 0x0) {break;}
             }
             for((y = i+1 , x=j+1); y<hauteur && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)) ; (y++ , x++)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
             for((y = i-1 , x=j+1); y>=0 && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)) ; (y-- , x++)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
 
             for((y = i-1 , x=j-1); y>=0 && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)) ; (y-- , x--)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups =  ajouter_co(current_piece->coups, y,x);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
             for((y = i+1 , x=j-1); y<hauteur && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x)) ; (y++ , x--)){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Dame , %d %d peut aller en %d %d \n", i,j, y, x);
                 if (plateau[y][x] != 0x0) {break;}
             }
@@ -166,42 +187,50 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y = i+1;
             if(y<hauteur && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, j))){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             x=j+1;
             if(y<hauteur && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             x=j-1;
             if(y<hauteur && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
 
             y = i-1;
             if(y>=0 && (plateau[y][j] == 0x0 || plateau[y][j]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, j))){
                 plt_vld[y][j] = add_p_liste(plt_vld[y][j],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             x=j+1;
             if(y>=0 && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             x=j-1;
             if(y>=0 && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             x=j+1;
             if(x<longeur && (plateau[i][x] == 0x0 || plateau[i][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, i, x))){
                  plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
+                 if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,x);
                  //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             x=j-1;
             if(x>=0 && (plateau[i][x] == 0x0 || plateau[i][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, i, x))){
                  plt_vld[i][x] = add_p_liste(plt_vld[i][x],current_piece);
+                 if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,x);
                  //printf("Roi , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             // ROQUE
@@ -212,6 +241,7 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
                     }
                     else if(plateau[y][x]->type == tour && plateau[y][x]->couleur == current_piece->couleur && plateau[y][x]->mvd == 0 &&  ( simu || !(simulation_echec(Jeu, i, j, i, j+1) || simulation_echec(Jeu, i, j, i, j+2) ))){
                         plt_vld[i][j+2] = add_p_liste(plt_vld[i][j+2],current_piece);
+                        if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,j+2);
                         break;
                     }
                     else break; 
@@ -222,6 +252,7 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
                     }
                     else if(plateau[y][x]->type == tour && plateau[y][x]->couleur == current_piece->couleur && plateau[y][x]->mvd == 0 &&  ( simu || !(simulation_echec(Jeu, i, j, i, j-1) || simulation_echec(Jeu, i, j, i, j-2) ))){
                         plt_vld[i][j-2] = add_p_liste(plt_vld[i][j-2],current_piece);
+                        if(!simu) current_piece->coups = ajouter_co(current_piece->coups, i,j-2);
                         break;
                     } 
                     else break;
@@ -240,11 +271,13 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i+2;
             if(y<hauteur && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             y=i-2;
             if(y>=0 && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
 
@@ -252,11 +285,13 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i+2;
             if(y<hauteur && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             y=i-2;
             if(y>=0 && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
 
@@ -265,11 +300,13 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i+1;
             if(y<hauteur && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             y=i-1;
             if(y>=0 && x<longeur && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups =  ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
 
@@ -277,11 +314,13 @@ void coup_valide_piece(int i, int j, Game *Jeu , bool simu){
             y=i+1;
             if(y<hauteur && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur)&& ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             y=i-1;
             if(y>=0 && x>=0 && (plateau[y][x] == 0x0 || plateau[y][x]->couleur!=current_piece->couleur) && ( simu || !simulation_echec(Jeu, i, j, y, x))){
                 plt_vld[y][x] = add_p_liste(plt_vld[y][x],current_piece);
+                if(!simu) current_piece->coups = ajouter_co(current_piece->coups, y,x);
                 //printf("Cheval , %d %d peut aller en %d %d \n", i,j, y, x);
             }
             //printf("\n ~~~~ \n");

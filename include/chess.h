@@ -42,7 +42,7 @@ struct piece{
     int mvd;
     int pst; //mvd du passé
 
-    //co * coups;
+    co * coups;
 };
 
 
@@ -53,7 +53,7 @@ struct Game{
     int hauteur;
     int longeur;
     int mode;
-    //IA * ordi;
+    IA * ordi;
     // var de game loop
     plateauvalide * plt_vld;
     int player;
